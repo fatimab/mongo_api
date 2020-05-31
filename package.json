@@ -9,6 +9,7 @@
   "author": "Fatima Boudieb Chabi",
   "license": "ISC",
   "dependencies": {
+    "create-react-app": "^3.4.1",
     "express": "^4.17.1",
     "mongoose": "^4.11.9"
   }
