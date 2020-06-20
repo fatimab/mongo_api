@@ -26,7 +26,8 @@ module.exports = {
         movie.save(res.send("OK"));
     },
     delete(req, res){
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        //res.header('Access-Control-Allow-Origin', 'http://localhost:8050');
+
         Movie.remove({_id: req.params.id}, function(err, movie){
             res.json({msg: "Ben supprimé"});
         })

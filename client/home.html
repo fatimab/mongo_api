@@ -29,31 +29,124 @@
         <!--END MENU-->
 
         <div class="container">
-          <!-- -->
-          <div class="input-group flex-nowrap">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="addon-wrapping">
-                <i class="fas fa-search"></i>
-              </span>
-            </div>
-            <input type="text" class="form-control" placeholder="a movie id" aria-label="id" aria-describedby="addon-wrapping">
-          </div>
-          <!--END -->
           <!--LIST MOVIES-->
           <h1>Movies list</h1>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            + Add a movie
+          </button>    
+            <!-- MODAL ADD MOVIE-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a movie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form>
+                  <div class="modal-body">
+                    Please enter here a json object with duration and title attributes.
+                    <textarea id="data" class="form-control" placeholder="Example: {'duration':1232,'title': 'Harry Potter'"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" id="submitMovie" class="btn btn-primary" value="Save"/>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+            <!-- END MODAL ADD MOVIE-->      
+          
           <div id="list"></div>
           <!--END LIST MOVIES-->
-        MOVIES
       </div>
 
       <script>
-        console.log("hello");
+         //DELETE MOVIE
+         function deleteMovie(id){
+         const url = "http://127.0.0.1:3050/movie/"+id;
+          fetch(url, {method: 'DELETE'})
+          .then(res => res.json)
+          .catch(err=> console.log(err))
+          .then(res => document.getElementById(id).style.display='none');
+        } 
+        
+        //ADD A MOVIE
+        document.getElementById("submitMovie").addEventListener("click", function(event){
+          event.preventDefault();
+          const url = "http://127.0.0.1:3050/movie";
+          const data = JSON.parse(document.getElementById("data").value);
+          fetch(url, {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+          })
+          .then(res => document.location.reload()
+        )          
+          .catch(err => console.log(err));
+        });
+
+        //LIST MOVIES
         const list = document.getElementById('list');
 
+        //bootstrap table
+        let table = document.createElement("table");
+        table.className="table";
+        //thead
+        let thead = document.createElement('thead');
+        table.appendChild(thead);
+        let tr = document.createElement("tr");
+        thead.appendChild(tr);
+        let th1 = document.createElement("th");
+        let th2 = document.createElement("th");
+        let th3 = document.createElement("th");
+
+        th1.innerHTML="ID";
+        th2.innerHTML="Duration";
+        th3.innerHTML="Title";
+
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        tr.appendChild(th3);
+        
+        //tbody
+        let tbody = document.createElement('tbody');
+        table.appendChild(tbody);
         const url = "http://127.0.0.1:3050/movies";
         fetch(url)
-    .then(response => response.json())
-    .then(json => console.log(json));
+        .then(res => res.json())
+        .then(res => 
+          res.forEach(element => {
+            const id= String(element["_id"]);
+            let tr = document.createElement('tr');
+            tr.setAttribute("id", id);
+            tbody.appendChild(tr);
+            let td1 = document.createElement('td')
+            tr.appendChild(td1);
+            let td2 = document.createElement('td');
+            tr.appendChild(td2);
+            let td3 = document.createElement('td');
+            tr.appendChild(td3);
+            let td4 = document.createElement('td');
+            tr.appendChild(td4);
+            td1.innerHTML = element["_id"];
+            td2.innerHTML = element["duration"];
+            td3.innerHTML = element["title"];
+            const link = document.createElement('button');
+            link.setAttribute("onclick","deleteMovie(\'"+ id+"\')");
+            link.className = "btn btn-danger";
+            link.innerHTML="Delete";
+            td4.appendChild(link);
+          })
+        );
+       
+        list.appendChild(table);
+        
       </script>
     </body>
 </html>
