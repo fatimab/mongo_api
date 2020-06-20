@@ -2,12 +2,13 @@
 <html>
     <head>
         <meta charset="UTF-8"/>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/e791b0256a.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    </head>
+
+      </head>
     <body>
         <!--MENU-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,7 +22,7 @@
                   <a class="nav-link" href="/">Movies <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/users">Users</a>
+                  <a class="nav-link" href="/users-page">Users</a>
                 </li>
               </ul>
             </div>
@@ -29,8 +30,17 @@
         <!--END MENU-->
 
         <div class="container">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Search</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Title" aria-label="title" aria-describedby="basic-addon1">
+            <button class="btn btn-success">OK</button>
+          </div>
+
           <!--LIST MOVIES-->
           <h1>Movies list</h1>
+
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             + Add a movie
           </button>    
@@ -97,6 +107,7 @@
         //bootstrap table
         let table = document.createElement("table");
         table.className="table";
+        table.setAttribute("id", "mytable");
         //thead
         let thead = document.createElement('thead');
         table.appendChild(thead);
@@ -134,6 +145,8 @@
             tr.appendChild(td3);
             let td4 = document.createElement('td');
             tr.appendChild(td4);
+            let td5 = document.createElement('td');
+            tr.appendChild(td5);
             td1.innerHTML = element["_id"];
             td2.innerHTML = element["duration"];
             td3.innerHTML = element["title"];
@@ -142,11 +155,16 @@
             link.className = "btn btn-danger";
             link.innerHTML="Delete";
             td4.appendChild(link);
+            const btn = document.createElement('a');
+            btn.setAttribute("href","/movie/update/"+ id);
+            btn.className = "btn btn-primary";
+            btn.innerHTML="Update";
+            td5.appendChild(btn);
           })
         );
        
         list.appendChild(table);
-        
+
       </script>
     </body>
 </html>

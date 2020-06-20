@@ -31,5 +31,20 @@ module.exports = {
         Movie.remove({_id: req.params.id}, function(err, movie){
             res.json({msg: "Ben supprimé"});
         })
+    },
+    search(req, res){
+        Movie.findOne({title: req.body.title}, function(err, movie){
+            res.json(movie);
+        });
+    },
+    update(req, res){
+        data = {
+            duration: req.body.duration,
+            title: req.body.title
+        };
+        Movie.findByIdAndUpdate(req.params.id, data, function(err, movie){
+            if(err) console.log(err);
+            res.send('success'+movie);
+        })
     }
 }

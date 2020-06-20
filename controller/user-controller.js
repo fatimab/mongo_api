@@ -18,7 +18,8 @@ module.exports = {
         const body = req.body;
         let user = new User();
         user.name = body.name;
-        console.log(body);
+        user.age = body.age;
+        //user.movies = body.movies;
         user.save(res.send("OK"));
     },
     delete(req, res){

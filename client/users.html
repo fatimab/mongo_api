@@ -11,7 +11,7 @@
     <body>
         <!--MENU-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Estiam</a>
+            <a class="navbar-brand" href="/">Estiam</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,11 +47,11 @@
                   <form>
                   <div class="modal-body">
                     Please enter here a json object with name, age and array of movies.
-                    <textarea id="data" class="form-control" placeholder="Example: {'duration':1232,'title': 'Harry Potter'}"></textarea>
+                    <textarea id="data" class="form-control" placeholder="Example:{'name':'Fatima', 'age': 23, movies:[ {'duration':1232,'title': 'Harry Potter'}]}"></textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" id="submitMovie" class="btn btn-primary" value="Save"/>
+                    <input type="submit" id="submitUser" class="btn btn-primary" value="Save"/>
                   </div>
                 </form>
                 </div>
@@ -74,7 +74,7 @@
         } 
         
         //ADD A MOVIE
-        document.getElementById("submitMovie").addEventListener("click", function(event){
+        document.getElementById("submitUser").addEventListener("click", function(event){
           event.preventDefault();
           const url = "http://127.0.0.1:3050/user";
           const data = JSON.parse(document.getElementById("data").value);
@@ -91,7 +91,7 @@
           .catch(err => console.log(err));
         });
 
-        //LIST MOVIES
+        //LIST USERS
         const list = document.getElementById('list');
 
         //bootstrap table
